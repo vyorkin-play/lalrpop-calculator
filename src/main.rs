@@ -28,6 +28,24 @@ fn calculator2b() {
     assert_eq!(calculator2b::parse_Term("(222)").unwrap(), "222");
 }
 
+pub mod calculator3;
+
+macro_rules! test3 {
+    ($expr:expr) => {
+        println!("parsing {}", stringify!($expr));
+        assert_eq!(calculator3::parse_Expr(stringify!($expr)).unwrap(), $expr);
+    }
+}
+
+#[test]
+fn calculator3() {
+    test3!(1 + 1);
+    test3!(2 + 10 + 5);
+    test3!(2 + 3 * 2);
+    test3!(5 + 3 * (2 + 2));
+    test3!(5 + 8 / 4 + 4 / (3 - 1));
+}
+
 #[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
