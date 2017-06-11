@@ -37,6 +37,17 @@ macro_rules! test3 {
     }
 }
 
+pub mod calculator5;
+
+#[test]
+fn calculator5() {
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("").unwrap()), "[]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3").unwrap()), "[(3 + (3 * 3))]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3,").unwrap()), "[(3 + (3 * 3))]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3, 2 + 2").unwrap()), "[(3 + (3 * 3)), (2 + 2)]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3, 2 + 2,").unwrap()), "[(3 + (3 * 3)), (2 + 2)]");
+}
+
 #[test]
 fn calculator3() {
     test3!(1 + 1);
