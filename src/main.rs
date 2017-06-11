@@ -46,6 +46,17 @@ fn calculator3() {
     test3!(5 + 8 / 4 + 4 / (3 - 1));
 }
 
+pub mod calculator4;
+pub mod ast;
+
+#[test]
+fn calculator4() {
+    assert_eq!(
+        &format!("{:?}", calculator4::parse_Expr("11 * 12 + 13").unwrap()),
+        "((11 * 12) + 13)"
+    );
+}
+
 #[cfg(not(test))]
 fn main() {
     println!("Hello, world!");
