@@ -1,3 +1,5 @@
+extern crate lalrpop_util;
+
 pub mod calculator1;
 
 #[test]
@@ -37,17 +39,6 @@ macro_rules! test3 {
     }
 }
 
-pub mod calculator5;
-
-#[test]
-fn calculator5() {
-    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("").unwrap()), "[]");
-    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3").unwrap()), "[(3 + (3 * 3))]");
-    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3,").unwrap()), "[(3 + (3 * 3))]");
-    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3, 2 + 2").unwrap()), "[(3 + (3 * 3)), (2 + 2)]");
-    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3, 2 + 2,").unwrap()), "[(3 + (3 * 3)), (2 + 2)]");
-}
-
 #[test]
 fn calculator3() {
     test3!(1 + 1);
@@ -66,6 +57,27 @@ fn calculator4() {
         &format!("{:?}", calculator4::parse_Expr("11 * 12 + 13").unwrap()),
         "((11 * 12) + 13)"
     );
+}
+
+pub mod calculator5;
+
+#[test]
+fn calculator5() {
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("").unwrap()), "[]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3").unwrap()), "[(3 + (3 * 3))]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3,").unwrap()), "[(3 + (3 * 3))]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3, 2 + 2").unwrap()), "[(3 + (3 * 3)), (2 + 2)]");
+    assert_eq!(&format!("{:?}", calculator5::parse_Exprs("3 + 3 * 3, 2 + 2,").unwrap()), "[(3 + (3 * 3)), (2 + 2)]");
+}
+
+pub mod calculator6;
+
+#[test]
+fn calculator6() {
+    let mut errors = Vec::new();
+    assert_eq!(&format!("{:?}", calculator6::parse_Exprs(&mut errors, "1 * + 2").unwrap()), "[((1 * error) + 2)]");
+    assert_eq!(&format!("{:?}", calculator6::parse_Exprs(&mut errors, "1 + 2 * 3, *10").unwrap()), "[(1 + (2 * 3)), (error * 10)]");
+    assert_eq!(&format!("{:?}", calculator6::parse_Exprs(&mut errors, "*").unwrap()), "[(error * error)]");
 }
 
 #[cfg(not(test))]
